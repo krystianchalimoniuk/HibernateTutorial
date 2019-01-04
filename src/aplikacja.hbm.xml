@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="krystian.tutorial.hibernate.encje.Klient" table="klient">
+<id name="id" column="id">
+<generator class="increment"></generator>
+</id>
+<property name="imie" column="imie"/>
+<property name="nazwisko" column="nazwisko"/>
+<set lazy="true" name="zamowienia" cascade="persist" inverse="true">
+<key column="id"/>
+<one-to-many class="krystian.tutorial.hibernate.encje.Zamowienie"></one-to-many>
+</set>
+<joined-subclass name="krystian.tutorial.hibernate.encje.KlientFirmowy" table="klient_firmowy">
+<key column="klient_id"></key>
+<property name="nazwaFirmy" column="nazwa_firmy"/>
+<property name="NIP" column="nip"/>
+</joined-subclass>
+<joined-subclass name="krystian.tutorial.hibernate.encje.KlientPrywatny" table="klient_prywatny">
+<key column="klient_id"></key>
+<property name="dataUrodzenia" column="data_urodzenia"></property>
+</joined-subclass>
+</class>
+<class name="krystian.tutorial.hibernate.encje.Zamowienie" table="zamowienie">
+<id name="id" column="id">
+<generator class="increment"/>
+</id>
+<property name="data" column="data"/>
+<property name="adres" column="adres"/>
+<many-to-one name="klient" column="klient" not-null="true"></many-to-one>
+</class>
+</hibernate-mapping>
